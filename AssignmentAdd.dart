@@ -1,24 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:student_tracker_scratch/main.dart';
-import 'package:student_tracker_scratch/AssignmentAdd.dart';
 
-class AssignmentTrack extends StatefulWidget {
-  AssignmentTrack({super.key, required this.title});
+class AssignmentAdd extends StatefulWidget {
+  AssignmentAdd({super.key, required this.title});
 
   final String title;
 
-  AssignmentAdd addpage = AssignmentAdd(title: "Add Assignment");
   @override
-  State<AssignmentTrack> createState() => _AssignmentTrackState();
+  State<AssignmentAdd> createState() => _AssignmentAddState();
+
+  var trackpage;
 
 }
 
-class _AssignmentTrackState extends State<AssignmentTrack> {
-
+class _AssignmentAddState extends State<AssignmentAdd> {
   TextEditingController assignmentController = TextEditingController();
   TextEditingController subjectController = TextEditingController();
 
-  /*
   // for adding an assignment
   void addAssignment(String title, String subject) {
     setState(() {
@@ -27,27 +25,10 @@ class _AssignmentTrackState extends State<AssignmentTrack> {
       subjectController.clear();
     });
   }
-*/
-
-  void markAsDone(int index) {
-    setState(() {
-      assignments[index].isDone = true;
-    });
-  }
-
-
-  // removing assignments after checkboxed
-  void removeDoneAssignments() {
-    setState(() {
-      assignments.removeWhere((assignment) => assignment.isDone);
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
-    widget.addpage.trackpage = widget;
     return Scaffold(
-
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
@@ -57,11 +38,11 @@ class _AssignmentTrackState extends State<AssignmentTrack> {
               Navigator.push(
                 context, 
                 MaterialPageRoute(
-                  builder: (context) => widget.addpage
+                  builder: (context) => widget.trackpage
                 )
               );
             }, 
-            icon: const Icon(Icons.my_library_add),
+            icon: const Icon(Icons.arrow_back),
           )
         ],
         automaticallyImplyLeading: false,
@@ -69,36 +50,7 @@ class _AssignmentTrackState extends State<AssignmentTrack> {
 
       body: Column(
         children: [
-          Expanded(
-            child: ListView.builder(
-              itemCount: assignments.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(assignments[index].title),
-                  subtitle: Text(assignments[index].subject),
-                  trailing: Checkbox(
-                    value: assignments[index].isDone,
-                    onChanged: (value) {
-                      markAsDone(index);
-                    },
-                  ),
-                );
-              },
-            ),
-          ),
-
-        ElevatedButton(
-            onPressed: () {
-              removeDoneAssignments();
-            },
-            child: const Text('Remove Done Assignments'),
-          ),
-        const Padding(
-          padding: EdgeInsets.all(16.0)
-        )
-
-/*
-        Padding(
+          Padding(
             padding: const EdgeInsets.all(16.0),
             child: Row(
               children: [
@@ -144,6 +96,12 @@ class _AssignmentTrackState extends State<AssignmentTrack> {
                   onPressed: () {
                     if (assignmentController.text.isNotEmpty) {
                       addAssignment(assignmentController.text, subjectController.text);
+                      Navigator.push(
+                      context, 
+                      MaterialPageRoute(
+                        builder: (context) => widget.trackpage
+                      )
+                    );
                     }
                     else {
                       
@@ -154,11 +112,12 @@ class _AssignmentTrackState extends State<AssignmentTrack> {
               ]
             )
           ),
-*/
         ]
-        
-      ),
-
+      )
     );
   }
+
+
+
+
 }

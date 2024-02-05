@@ -28,3 +28,18 @@ class Assignment {
   Assignment({required this.title,required this.subject, this.isDone = false});
 }
 
+List<Assignment> assignments = [];
+const List<Icon> list = <Icon>[
+  Icon(
+  Icons.class_
+  ),
+  Icon(
+  Icons.edit_calendar
+  ),
+  Icon(
+  Icons.shopping_cart
+  ),
+  Icon(
+  Icons.favorite
+  ),
+];
